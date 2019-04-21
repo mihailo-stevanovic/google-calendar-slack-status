@@ -11,7 +11,7 @@ You’ll only need two things to get this up and running:
 3. Your Node server will parse the JSON and update your Slack status via Slack’s API.  
 
 ### Part 1: Setting up your Node server on Heroku ###
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)  
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mihailo-stevanovic/google-calendar-slack-status/tree/statusExpiration)  
 1. Deploy this repo to Heroku by clicking the big purple button that says “Deploy to Heroku.”  
 2. Give your app a unique name. This will be part of your server’s URL, so make it memorable!  
 3. Paste your Slack user token, which you can find here, into the SLACK_TOKEN field. Choose the workspace you’d like to use, and copy (or generate) the token.  
@@ -56,9 +56,4 @@ If you ever need to turn this damn thing off, you can do that by either deactiva
 
 For the original, check out the Medium post here: [Syncing your Slack status with Google Calendar because nothing is sacred anymore](https://medium.com/@bjork24/syncing-your-slack-status-with-google-calendar-because-nothing-is-sacred-anymore-3032bd171770). Otherwise, click the button below to begin your journey:  
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-
-## ToDo ##
-* Alter STATUS_EMOJI based on event.
-* Refactor the codebase
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mihailo-stevanovic/google-calendar-slack-status/tree/statusExpiration)
