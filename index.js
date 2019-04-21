@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const slack = require('slack');
-const moment = require('moment');
+let moment = require('moment-timezone');
 
 const statusMappings = require("./statusMappings.json");
 
@@ -14,6 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const router = express.Router();
+
+moment.tz.setDefault(process.env.TIME_ZONE || "Europe/Madrid");
 
 // Body Format:
 // {

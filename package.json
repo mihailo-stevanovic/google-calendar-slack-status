@@ -33,7 +33,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "moment": "^2.20.1",
+    "moment-timezone": "^0.5.25",
     "morgan": "^1.9.1",
     "slack": "^10.1.1"
   }
