@@ -4,6 +4,8 @@ const logger = require('morgan');
 const slack = require('slack');
 const moment = require('moment');
 
+const statusMappings = require("./statusMappings.json");
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -31,10 +33,21 @@ app.post('/', (req, res, next) => {
   const dateFormat = 'MMM D, YYYY [at] hh:mmA';
   const start = moment(req.body.start, dateFormat);
   const end = moment(req.body.end, dateFormat);
-  let endTime = end.unix() - 7200; // CST / GMT-6
+  let endTime = end.unix() //
 
-  const twelveHours = start.add(12, "hours");
-  if (end.isAfter(twelveHours)) next(); // Don't include events longer than 12 hours. (all day events)
+  // const twelveHours = start.add(12, "hours");
+  // if (end.isAfter(twelveHours)) next(); // Don't include events longer than 12 hours. (all day events)
+
+
+  let getEmojiFromTitle = (title) => {
+    let emojis = statusMappings.filter(mapping => title.includes(mapping.title)).map(mapping => mapping.emoji);
+          
+    if(emojis.length > 0){
+        return emojis[0];
+    } else {
+        return process.env.STATUS_EMOJI;
+    }
+};
 
   // check for DND
   if (status.includes(dndToken)) {
@@ -49,7 +62,7 @@ app.post('/', (req, res, next) => {
     token: process.env.SLACK_TOKEN,
     profile: JSON.stringify({
       "status_text": `${status}`, // the text to be displayed
-      "status_emoji": process.env.STATUS_EMOJI, // emoji
+      "status_emoji": getEmojiFromTitle(status), // emoji
       "status_expiration": endTime // setting the expiration time for the status
     })
   });

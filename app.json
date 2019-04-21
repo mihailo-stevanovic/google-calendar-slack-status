@@ -15,12 +15,12 @@
       "required": true
     },
     "STATUS_EMOJI": {
-      "description": "What emoji would you like? e.g. :rocket: :spiral_calendar_pad:",
-      "value": ":spiral_calendar_pad:",
+      "description": "What emoji would you like to use by default? e.g. :rocket: :spiral_calendar_pad:",
+      "value": ":spiral_calendar_pad:"
     },
     "TIME_ZONE": {
       "description": "What time zone are you working from?",
-      "value": "CST"
+      "value": "CEST"
     }
   }
 }
