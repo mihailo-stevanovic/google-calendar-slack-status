@@ -23,8 +23,18 @@ const router = express.Router();
 //     "token": "xXx"
 // }
 
+let getEmojiFromTitle = (title) => {
+  let emojis = statusMappings.filter(mapping => title.includes(mapping.title)).map(mapping => mapping.emoji);
+        
+  if(emojis.length > 0){
+      return emojis[0];
+  } else {
+      return process.env.STATUS_EMOJI || ":spiral_calendar_pad:";
+  }
+};
+
 app.post('/', (req, res, next) => {
-  // check for secret token
+  // check for secret token  
   if (!req.body.token || req.body.token !== process.env.SECRET_TOKEN) next();
   // grab status and clean it up
   let status = req.body.title;
@@ -35,20 +45,11 @@ app.post('/', (req, res, next) => {
   const end = moment(req.body.end, dateFormat);
   let endTime = end.unix() //
 
-  // const twelveHours = start.add(12, "hours");
-  // if (end.isAfter(twelveHours)) next(); // Don't include events longer than 12 hours. (all day events)
-
-
-  let getEmojiFromTitle = (title) => {
-    let emojis = statusMappings.filter(mapping => title.includes(mapping.title)).map(mapping => mapping.emoji);
-          
-    if(emojis.length > 0){
-        return emojis[0];
-    } else {
-        return process.env.STATUS_EMOJI;
-    }
-};
-
+  if(process.env.EXCLUDE_ALL_DAY_EVENTS){
+    const twelveHours = start.add(12, "hours");
+    if (end.isAfter(twelveHours)) next(); // Don't include events longer than 12 hours. (all day events)
+  }
+  
   // check for DND
   if (status.includes(dndToken)) {
     slack.dnd.setSnooze({
@@ -57,15 +58,16 @@ app.post('/', (req, res, next) => {
     });
     status = status.replace(dndToken, '');
   }
+  
   // set status
   slack.users.profile.set({
     token: process.env.SLACK_TOKEN,
     profile: JSON.stringify({
       "status_text": `${status}`, // the text to be displayed
-      "status_emoji": getEmojiFromTitle(status), // emoji
+      "status_emoji": `${getEmojiFromTitle(status)}`, // emoji
       "status_expiration": endTime // setting the expiration time for the status
     })
-  });
+  });  
   res.status(200);
   res.send('🤘');
 });

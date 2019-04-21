@@ -21,6 +21,10 @@
     "TIME_ZONE": {
       "description": "What time zone are you working from?",
       "value": "CEST"
+    },
+    "EXCLUDE_ALL_DAY_EVENTS": {
+      "description": "Should all day events be excluded?",
+      "value": false
     }
   }
 }
