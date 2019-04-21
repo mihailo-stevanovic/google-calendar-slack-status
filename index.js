@@ -98,7 +98,7 @@ app.get('/', (req, res, next) => {
   "title":"<<<{{Title}}>>>",
   "start":"{{Starts}}",
   "end":"{{Ends}}",
-  "token": "${process.env.SECRET_TOKEN}"
+  "token": "tokenValue"
 }</pre>
       </body>
     </html>
